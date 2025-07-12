@@ -7,6 +7,17 @@ Thư viện PHP để tự động chuyển đổi địa chỉ hành chính Vi�
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](tests/)
 
+## 🌐 Multi-Language Support
+
+Vietnam Address Converter hiện có sẵn cho nhiều ngôn ngữ lập trình:
+
+- 🟨 **JavaScript/TypeScript**: [vietnam-address-converter](https://github.com/quangtam/vietnam-address-converter)
+- 🟦 **PHP**: [vietnam-address-converter-php](https://github.com/quangtam/vietnam-address-converter-php) - Thư viện PHP với API tương tự (repo này)
+- 🔴 **Python**: Coming soon...
+- 🟩 **Go**: Coming soon...
+
+💡 **Tất cả implementations đều sử dụng cùng dữ liệu mapping và logic chuyển đổi để đảm bảo tính nhất quán.**
+
 ## ✨ Tính năng chính
 
 - 🔄 **Chuyển đổi địa chỉ tự động**: Chuyển đổi địa chỉ cũ sang địa chỉ mới theo quy định mới nhất
