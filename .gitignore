@@ -1,0 +1,72 @@
+# Composer dependencies
+/vendor/
+composer.phar
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE and editor files
+/.vscode/
+/.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+# PHP specific
+*.log
+*.cache
+.phpunit.result.cache
+
+# Test coverage
+/coverage/
+/build/
+/clover.xml
+
+# Temporary and debug files
+*.tmp
+*.temp
+debug_test.php
+check_data.php
+get_correct_names.php
+fix_test.php
+
+# PHPUnit old configs
+phpunit_old.xml
+phpunit_new.xml
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Package files
+*.tar.gz
+*.zip
+*.rar
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.lock
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Local development
+/local/
+/tmp/
