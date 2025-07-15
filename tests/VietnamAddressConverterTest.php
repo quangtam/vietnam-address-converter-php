@@ -15,7 +15,7 @@ class VietnamAddressConverterTest extends TestCase
     protected function setUp(): void
     {
         $this->converter = new VietnamAddressConverter();
-        $this->converter->initialize(__DIR__ . '/../data/address.json');
+        $this->converter->initialize();
     }
 
     public function testInitialization(): void
@@ -26,9 +26,11 @@ class VietnamAddressConverterTest extends TestCase
         $this->assertArrayHasKey('provinces', $stats);
         $this->assertArrayHasKey('wards', $stats);
         $this->assertArrayHasKey('mappings', $stats);
+        $this->assertArrayHasKey('version', $stats);
         $this->assertGreaterThan(0, $stats['provinces']);
         $this->assertGreaterThan(0, $stats['wards']);
         $this->assertGreaterThan(0, $stats['mappings']);
+        $this->assertIsString($stats['version']);
     }
 
     public function testConvertStringAddressMerged(): void
@@ -200,13 +202,17 @@ class VietnamAddressConverterTest extends TestCase
         );
     }
 
-    public function testInitializationWithInvalidPath(): void
+    public function testDatabaseIntegration(): void
     {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Address data file not found');
-
+        // Test to ensure database integration works properly
         $converter = new VietnamAddressConverter();
-        $converter->initialize('/invalid/path/data.json');
+        
+        // This should not throw an exception with the new database
+        $converter->initialize();
+        
+        $stats = $converter->getDataStats();
+        $this->assertArrayHasKey('version', $stats);
+        $this->assertIsString($stats['version']);
     }
 
     public function testUninitializedConverter(): void

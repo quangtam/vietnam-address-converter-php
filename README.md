@@ -67,6 +67,8 @@ Phường An Hội Tây, Thành phố Hồ Chí Minh  // Không còn "Quận Gò
 composer require quangtam/vietnam-address-converter
 ```
 
+*Database sẽ được tự động tải từ package `quangtam/vietnam-address-database`*
+
 ### Cài đặt thủ công
 
 1. Clone repository:
@@ -94,11 +96,8 @@ use Vietnam\AddressConverter\VietnamAddressConverter;
 // Khởi tạo converter
 $converter = new VietnamAddressConverter();
 
-// Tải dữ liệu từ file JSON
-$converter->initialize(); // Sử dụng file data/address.json mặc định
-
-// Hoặc sử dụng file dữ liệu tùy chỉnh
-$converter->initialize('/path/to/custom/address.json');
+// Tải dữ liệu từ vietnam-address-database package
+$converter->initialize();
 ```
 
 ### 2. Chuyển đổi địa chỉ từ string
@@ -184,11 +183,8 @@ $converter->convertAddress('Phường An Lạc, Quận Bình Tân, TP.HCM');
 
 ### VietnamAddressConverter
 
-#### `initialize(?string $dataPath = null): void`
-Khởi tạo converter với dữ liệu từ file JSON.
-
-**Tham số:**
-- `$dataPath`: Đường dẫn tới file dữ liệu JSON (tùy chọn)
+#### `initialize(): void`
+Khởi tạo converter với dữ liệu từ Vietnam Address Database package.
 
 #### `convertAddress(string|FullAddress $address): ConversionResult`
 Chuyển đổi địa chỉ từ định dạng cũ sang mới.
@@ -289,13 +285,13 @@ demo();
 
 ## 📊 Dữ liệu
 
-Thư viện bao gồm:
+Thư viện sử dụng package [`quangtam/vietnam-address-database`](https://github.com/quangtam/vietnam-address-database) bao gồm:
 
 - **34 tỉnh/thành phố** theo cấu trúc hành chính mới
-- **3,300+ phường/xã** đã được cập nhật  
-- **10,000+ mapping records** cho việc chuyển đổi
+- **3,321 phường/xã** đã được cập nhật  
+- **10,977 mapping records** cho việc chuyển đổi
 
-Dữ liệu được cập nhật theo Nghị quyết số 202/2025/QH15 của Quốc hội về việc sắp xếp đơn vị hành chính.
+Dữ liệu được cập nhật theo Nghị quyết số 202/2025/QH15 của Quốc hội về việc sắp xếp đơn vị hành chính và tự động đồng bộ từ database package.
 
 ## 🛠️ Phát triển
 
