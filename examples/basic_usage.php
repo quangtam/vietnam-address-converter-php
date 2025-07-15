@@ -19,6 +19,7 @@ try {
     // Display data statistics
     $stats = $converter->getDataStats();
     echo "📊 Data Statistics:\n";
+    echo "   - Database Version: {$stats['version']}\n";
     echo "   - Provinces: {$stats['provinces']}\n";
     echo "   - Wards: {$stats['wards']}\n";
     echo "   - Mappings: {$stats['mappings']}\n\n";
@@ -94,7 +95,8 @@ $addresses = [
     "Phường 14, Quận Gò Vấp, Thành phố Hồ Chí Minh", 
     "Phường 15, Quận Gò Vấp, Thành phố Hồ Chí Minh",
     "Phường An Lạc, Quận Bình Tân, Thành phố Hồ Chí Minh",
-    "Phường An Lạc A, Quận Bình Tân, Thành phố Hồ Chí Minh"
+    "Phường An Lạc A, Quận Bình Tân, Thành phố Hồ Chí Minh",
+    "Thôn Vân Sa, Xã Tản Hồng, Huyện Ba Vì, Thành phố Hà Nội",
 ];
 
 foreach ($addresses as $index => $address) {

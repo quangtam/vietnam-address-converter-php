@@ -7,6 +7,7 @@ namespace Vietnam\AddressConverter;
 use Vietnam\AddressConverter\Models\{ConversionResult, FullAddress, NewAddress, MappingInfo};
 use Vietnam\AddressConverter\Parser\AddressParser;
 use Vietnam\AddressConverter\Validator\AddressValidator;
+use VietnamAddressDatabase\VietnamAddressDatabase;
 
 /**
  * Main Vietnam Address Converter class
@@ -30,31 +31,22 @@ class VietnamAddressConverter
     }
 
     /**
-     * Initialize converter with data from JSON file
+     * Initialize converter with data from Vietnam Address Database
      *
-     * @param string|null $dataPath Path to address data JSON file
-     * @throws \RuntimeException If data file cannot be loaded
+     * @throws \RuntimeException If data cannot be loaded
      */
-    public function initialize(?string $dataPath = null): void
+    public function initialize(): void
     {
-        $dataPath = $dataPath ?? __DIR__ . '/../data/address.json';
-
-        if (!file_exists($dataPath)) {
-            throw new \RuntimeException("Address data file not found: {$dataPath}");
+        try {
+            // Load data from vietnam-address-database package
+            $this->provinces = VietnamAddressDatabase::getProvinces();
+            $this->wards = VietnamAddressDatabase::getWards();
+            $this->wardMappings = VietnamAddressDatabase::getWardMappings();
+            
+            $this->initialized = true;
+        } catch (\Exception $e) {
+            throw new \RuntimeException("Cannot load address data: " . $e->getMessage(), 0, $e);
         }
-
-        $jsonContent = file_get_contents($dataPath);
-        if ($jsonContent === false) {
-            throw new \RuntimeException("Cannot read address data file: {$dataPath}");
-        }
-
-        $data = json_decode($jsonContent, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \RuntimeException("Invalid JSON in address data file: " . json_last_error_msg());
-        }
-
-        $this->loadData($data);
-        $this->initialized = true;
     }
 
     /**
@@ -168,7 +160,8 @@ class VietnamAddressConverter
         return [
             'provinces' => count($this->provinces),
             'wards' => count($this->wards),
-            'mappings' => count($this->wardMappings)
+            'mappings' => count($this->wardMappings),
+            'version' => VietnamAddressDatabase::getVersion()
         ];
     }
 
@@ -192,10 +185,9 @@ class VietnamAddressConverter
     public function getWardsByProvince(string $provinceCode): array
     {
         $this->ensureInitialized();
-
-        return array_filter($this->wards, function ($ward) use ($provinceCode) {
-            return $ward['province_code'] === $provinceCode;
-        });
+        
+        // Use the database method directly for better performance
+        return VietnamAddressDatabase::getWardsByProvinceCode($provinceCode);
     }
 
     /**
@@ -219,32 +211,6 @@ class VietnamAddressConverter
                    (!empty($oldDistrictName) && stripos($oldDistrictName, $keyword) !== false) ||
                    (!empty($newWardName) && stripos($newWardName, $keyword) !== false);
         });
-    }
-
-    /**
-     * Load data from parsed JSON
-     *
-     * @param array $data Parsed JSON data
-     */
-    private function loadData(array $data): void
-    {
-        foreach ($data as $table) {
-            if (!isset($table['type']) || $table['type'] !== 'table') {
-                continue;
-            }
-
-            switch ($table['name']) {
-                case 'provinces':
-                    $this->provinces = $table['data'];
-                    break;
-                case 'wards':
-                    $this->wards = $table['data'];
-                    break;
-                case 'ward_mappings':
-                    $this->wardMappings = $table['data'];
-                    break;
-            }
-        }
     }
 
     /**
